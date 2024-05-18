@@ -1,5 +1,5 @@
-const { Given, Then } = require("cucumber");
-const { client } = require("nightwatch-api");
+import { Given, Then } from '@cucumber/cucumber';
+import { client } from 'nightwatch-api';
 
 Given('I open Bing search page {string}', function (string) {
     return client.url(string).waitForElementVisible('body', 1000);
