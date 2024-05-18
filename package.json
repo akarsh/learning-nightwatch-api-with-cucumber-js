@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:e2e:nightwatch-api": "cucumber-js --require cucumber.conf.js --require step-definitions --format node_modules/cucumber-pretty"
+    "test:e2e:nightwatch-api": "cucumber-js --require cucumber.conf.js --require-module ts-node/register --require 'step_definitions/**.ts' --format progress-bar --format 'html':'report/cucumber-report.html'"
   },
   "keywords": [
     "nightwatch-api",
@@ -13,9 +13,13 @@
   "author": "Akarsh Seggemu",
   "license": "GPL-3.0-only",
   "devDependencies": {
+    "@cucumber/cucumber": "^10.7.0",
+    "@types/cucumber": "^7.0.0",
+    "@types/node": "^20.12.12",
     "chromedriver": "^125.0.0",
     "cucumber": "^6.0.7",
-    "cucumber-pretty": "^6.0.1",
-    "nightwatch-api": "^3.0.2"
+    "nightwatch-api": "^3.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }
