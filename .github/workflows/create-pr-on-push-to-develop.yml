@@ -25,12 +25,12 @@ jobs:
         run: |
           COMMIT_SHA=$(git rev-parse HEAD)
           COMMIT_TITLE=$(git log -1 --pretty=format:'%s' $COMMIT_SHA)
-          COMMIT_MESSAGE=$(git log -1 --pretty=format:'%b' $COMMIT_SHA)
+          COMMIT_MESSAGE=$(git log -1 --pretty=format:'%B' $COMMIT_SHA)
           COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an' $COMMIT_SHA)
           echo "commit_sha=${COMMIT_SHA}" >> $GITHUB_ENV
           echo "commit_title=${COMMIT_TITLE}" >> $GITHUB_ENV
-          echo "commit_message=${COMMIT_MESSAGE}" >> $GITHUB_ENV
           echo "commit_author=${COMMIT_AUTHOR}" >> $GITHUB_ENV
+          echo "${COMMIT_MESSAGE}" > commit_message.txt
 
       - name: Map commit author to GitHub username
         id: map_author
@@ -53,7 +53,7 @@ jobs:
           LABEL_KEYWORDS["wontfix"]="wontfix"
 
           COMMIT_TITLE="${{ env.commit_title }}"
-          COMMIT_MESSAGE="${{ env.commit_message }}"
+          COMMIT_MESSAGE=$(cat commit_message.txt)  # Read commit message from the file
 
           LABELS=""
 
@@ -70,4 +70,5 @@ jobs:
       - name: Create pull request
         id: create_pr
         run: |
-          gh pr create --head ${{ env.BRANCH_NAME }} --base main -t "$commit_title" -b "$commit_message" -a "$GITHUB_USERNAME" -l "$LABELS"
+          COMMIT_MESSAGE=$(cat commit_message.txt)  # Read commit message from the file
+          gh pr create --head ${{ env.BRANCH_NAME }} --base main -t "${{ env.commit_title }}" -b "$COMMIT_MESSAGE" -a "${{ env.GITHUB_USERNAME }}" -l "${{ env.LABELS }}"
