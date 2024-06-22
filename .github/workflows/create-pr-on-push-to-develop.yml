@@ -11,7 +11,7 @@ jobs:
   create-pr:
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: ${{ secrets.PAT_JEST_TYPESCRIPT_EXAMPLE }}
+      GH_TOKEN: ${{ secrets.PAT_EXAMPLE }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
